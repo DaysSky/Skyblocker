@@ -329,7 +329,7 @@ public abstract class HandledScreenMixin<T extends ScreenHandler> extends Screen
 		}
 	}
 
-	@Inject(at = @At("HEAD"), method = "mouseClicked")
+	@Inject(at = @At("HEAD"), method = "mouseClicked", cancellable = true)
 	public void skyblocker$mouseClicked(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
 		if (VisitorHelper.shouldRender()) {
 			VisitorHelper.handleMouseClick(mouseX, mouseY, button, this.textRenderer);
@@ -340,6 +340,7 @@ public abstract class HandledScreenMixin<T extends ScreenHandler> extends Screen
 			String title = getTitle().getString();
 			if (title.equals("Confirm Fusion") && slot.id == 47) {
 				client.interactionManager.clickSlot(this.handler.syncId, 33, 0, SlotActionType.PICKUP, client.player);
+				cir.cancel();
 			}
 		}
 	}
